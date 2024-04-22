@@ -21,3 +21,9 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "task4.dll"]
+
+# Копируем docker-compose.yml в контекст сборки
+COPY ["../docker-compose.yml", "../"]
+
+# Запускаем docker-compose
+RUN docker-compose up
