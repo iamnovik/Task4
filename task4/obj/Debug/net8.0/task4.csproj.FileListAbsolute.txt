@@ -42,3 +42,4 @@ D:\ItTransition\task4\task4\obj\Debug\net8.0\refint\task4.dll
 D:\ItTransition\task4\task4\obj\Debug\net8.0\task4.pdb
 D:\ItTransition\task4\task4\obj\Debug\net8.0\task4.genruntimeconfig.cache
 D:\ItTransition\task4\task4\obj\Debug\net8.0\ref\task4.dll
+D:\ItTransition\task4\task4\obj\Debug\net8.0\task4.sourcelink.json
