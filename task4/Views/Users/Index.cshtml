@@ -1,0 +1,113 @@
+﻿@model List<task4_1.Models.AppUser>
+
+@{
+    ViewData["Title"] = "User Management";
+}
+
+<div class="container">
+    <h2>User Management</h2>
+    <div class="toolbar">
+        <button id="blockBtn" class="btn btn-danger">Block</button>
+        <button id="unblockBtn" class="btn btn-success">Unblock</button>
+        <button id="deleteBtn" class="btn btn-warning">Delete</button>
+    </div>
+    <table id="userTable" class="table">
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="selectAll"></th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Registration Date(UTC)</th>
+                <th>Last Login Date(UTC)</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td><input type="checkbox" class="userCheckbox" data-id="@user.Id"></td>
+                    <td>@user.Id</td>
+                    <td>@user.Name</td>
+                    <td>@user.Email</td>
+                    <td>@user.RegistrationDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td>@user.LastLoginDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td>@(!user.IsBlocked ? "Active" : "Blocked")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Select/deselect all checkboxes
+            $('#selectAll').click(function () {
+                $('.userCheckbox').prop('checked', $(this).prop('checked'));
+            });
+
+            // Button handlers
+            $('#blockBtn').click(function () {
+                var selectedUsers = $('.userCheckbox:checked').map(function () {
+                    return $(this).data('id');
+                }).get();
+                
+                $.ajax({
+                    url: '/Users/BlockUsers',
+                    method: 'POST',
+                    data: { userIds: selectedUsers },
+                    success: function (data) {
+                        // Обновляем страницу или выполняем другие действия после успешного выполнения запроса
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        // Обрабатываем ошибку
+                        console.error(error);
+                    }
+                });
+            });
+
+            $('#unblockBtn').click(function () {
+                var selectedUsers = $('.userCheckbox:checked').map(function () {
+                    return $(this).data('id');
+                }).get();
+                
+                $.ajax({
+                    url: '/Users/UnblockUsers',
+                    method: 'POST',
+                    data: { userIds: selectedUsers },
+                    success: function (data) {
+                         // Обновляем страницу или выполняем другие действия после успешного выполнения запроса
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                         // Обрабатываем ошибку
+                        console.error(error);
+                }
+                });
+            });
+
+            $('#deleteBtn').click(function () {
+                var selectedUsers = $('.userCheckbox:checked').map(function () {
+                    return $(this).data('id');
+                }).get();
+                
+                $.ajax({
+                    url: '/Users/DeleteUsers',
+                    method: 'POST',
+                    data: { userIds: selectedUsers },
+                    success: function (data) {
+                        // Обновляем страницу или выполняем другие действия после успешного выполнения запроса
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        // Обрабатываем ошибку
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+}
