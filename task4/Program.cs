@@ -14,11 +14,11 @@ var options = new DbContextOptionsBuilder<AppDbContext>()
     .UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
     .Options;
 
-using (var context = new AppDbContext(options))
+/*using (var context = new AppDbContext(options))
 {
     context.Database.EnsureDeleted();
     context.Database.EnsureCreated();
-}
+}*/
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
